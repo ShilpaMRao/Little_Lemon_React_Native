@@ -8,18 +8,22 @@ import MenuItems_FlatList from "./components/MenuItems_FlatList";
 import MenuItems_SectionList from "./components/MenuItems_SectionList";
 import FeedBackForm from "./components/FeedBackForm";
 import LoginScreen from "./components/LoginScreen";
+import Pressable_Menu from "./components/Pressable_Menu";
+import ImageDemo from "./components/ImageDemo";
 export default function App() {
   return (
     <>
       <View style={styles.container}>
         <LittleLemonHeader />
-        {/* <WelcomeScreen /> */}
+        <WelcomeScreen />
         {/* <MenuItems /> */}
         {/* <MenuItems_FlatList /> */}
         {/* <MenuItems_SectionList /> */}
         {/* <FeedBackForm /> */}
-        <LoginScreen />
-        <LittleLemonFooter />
+        {/* <LoginScreen /> */}
+        {/* <LittleLemonFooter /> */}
+        {/* <Pressable_Menu /> */}
+        {/* <ImageDemo /> */}
       </View>
     </>
   );
