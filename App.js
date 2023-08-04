@@ -10,12 +10,14 @@ import FeedBackForm from "./components/FeedBackForm";
 import LoginScreen from "./components/LoginScreen";
 import Pressable_Menu from "./components/Pressable_Menu";
 import ImageDemo from "./components/ImageDemo";
+import Welcome_useColorScheme from "./components/Welcome_useColorScheme";
 export default function App() {
   return (
     <>
       <View style={styles.container}>
         <LittleLemonHeader />
-        <WelcomeScreen />
+        <Welcome_useColorScheme />
+        {/* <WelcomeScreen /> */}
         {/* <MenuItems /> */}
         {/* <MenuItems_FlatList /> */}
         {/* <MenuItems_SectionList /> */}

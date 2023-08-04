@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     marginVertical: 5,
+    borderRadius: 20,
   },
   logoText: {
     flexDirection: "row",
