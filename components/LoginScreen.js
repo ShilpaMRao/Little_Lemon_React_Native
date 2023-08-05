@@ -8,7 +8,7 @@ import {
   Pressable,
 } from "react-native";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
   const [login, setLogin] = useState(false);
@@ -20,36 +20,37 @@ export default function LoginScreen() {
     // >
     <ScrollView style={styles.container}>
       <Text style={styles.headerText}>Welcome to Little Lemon</Text>
-      {!login && (
-        <>
-          <Text style={styles.regularText}>Login to continue </Text>
+      {/* {!login && ( */}
+      <>
+        <Text style={styles.regularText}>Login to continue </Text>
 
-          <TextInput
-            style={styles.input}
-            value={email}
-            placeholder="email"
-            keyboardType="email-address"
-            onChangeText={onChangeEmail}
-          />
-          <TextInput
-            style={styles.input}
-            value={password}
-            secureTextEntry={true}
-            placeholder="password"
-            maxLength={8}
-            onChangeText={onChangePassword}
-          />
-          <Pressable
-            style={styles.loginButton}
-            onPress={() => {
-              setLogin(!login);
-            }}
-          >
-            <Text style={styles.loginButtonText}>Log in</Text>
-          </Pressable>
-        </>
-      )}
-      {login && <Text style={styles.regularText}>You are Logged In!</Text>}
+        <TextInput
+          style={styles.input}
+          value={email}
+          placeholder="email"
+          keyboardType="email-address"
+          onChangeText={onChangeEmail}
+        />
+        <TextInput
+          style={styles.input}
+          value={password}
+          secureTextEntry={true}
+          placeholder="password"
+          maxLength={8}
+          onChangeText={onChangePassword}
+        />
+        <Pressable
+          style={styles.loginButton}
+          onPress={() => {
+            setLogin(!login);
+            navigation.navigate("Welcome");
+          }}
+        >
+          <Text style={styles.loginButtonText}>Log in</Text>
+        </Pressable>
+      </>
+      {/* )} */}
+      {/* {login && <Text style={styles.regularText}>You are Logged In!</Text>} */}
     </ScrollView>
 
     // </KeyboardAvoidingView>

@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LittleLemonHeader from "./components/LittleLemonHeader";
@@ -13,40 +13,100 @@ import LoginScreen from "./components/LoginScreen";
 import Pressable_Menu from "./components/Pressable_Menu";
 import ImageDemo from "./components/ImageDemo";
 import Welcome_useColorScheme from "./components/Welcome_useColorScheme";
+// imports required for Tab Navigation
+import { Ionicons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+const Tab = createBottomTabNavigator();
+//----------------------------------------------
 const Stack = createNativeStackNavigator();
+
+function LogoTitle() {
+  return (
+    <Image
+      source={require("C:/Users/Admin/Shilpa/Coursera/Little_Lemon_ReactNative/images/Little-Lemon-Logo.png")}
+      style={{
+        height: 40,
+        width: 100,
+        resizeMode: "contain",
+        alignSelf: "center",
+      }}
+    />
+  );
+}
+// Demo of Tab Navigation
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Login"
-        screenOptions={{ headerStyle: { backgroundColor: "#FBDABB" } }}
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === "Welcome") {
+              iconName = focused
+                ? "ios-information-circle"
+                : "ios-information-circle-outline";
+            } else if (route.name === "Menu") {
+              iconName = "ios-list";
+            }
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: "tomato",
+          tabBarInactiveTintColor: "gray",
+        })}
       >
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen
-          name="Welcome"
-          component={WelcomeScreen}
-          options={{ title: "Home" }}
-        />
-        {/* <Stack.Screen name="Menu" component={MenuScreen} /> */}
-      </Stack.Navigator>
+        <Tab.Screen name="Welcome" component={WelcomeScreen} />
+        <Tab.Screen name="Menu" component={MenuItems_SectionList} />
+      </Tab.Navigator>
     </NavigationContainer>
-    // <>
-    //   <View style={styles.container}>
-    //     <LittleLemonHeader />
-    //     <Welcome_useColorScheme />
-    //     {/* <WelcomeScreen /> */}
-    //     {/* <MenuItems /> */}
-    //     {/* <MenuItems_FlatList /> */}
-    //     {/* <MenuItems_SectionList /> */}
-    //     {/* <FeedBackForm /> */}
-    //     {/* <LoginScreen /> */}
-    //     {/* <LittleLemonFooter /> */}
-    //     {/* <Pressable_Menu /> */}
-    //     {/* <ImageDemo /> */}
-    //   </View>
-    // </>
   );
 }
+
+// Demo of Stack Navigation
+// export default function App() {
+//   return (
+//     <NavigationContainer>
+//       <Stack.Navigator
+//         initialRouteName="Login"
+//         screenOptions={{
+//           headerStyle: { backgroundColor: "#333333" },
+//           headerTintColor: "#fff",
+//           headerTitleStyle: { fontWeight: "bold" },
+//         }}
+//       >
+//         <Stack.Screen
+//           name="Login"
+//           component={LoginScreen}
+//           options={{ title: "Login" }}
+//         />
+//         <Stack.Screen
+//           name="Welcome"
+//           component={WelcomeScreen}
+//           options={{
+//             title: "Home",
+//             headerTitle: (props) => <LogoTitle {...props} />,
+//           }}
+//         />
+//         <Stack.Screen name="Menu" component={MenuItems_SectionList} />
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//     // <>
+//     //   <View style={styles.container}>
+//     //     <LittleLemonHeader />
+//     //     <Welcome_useColorScheme />
+//     //     {/* <WelcomeScreen /> */}
+//     //     {/* <MenuItems /> */}
+//     //     {/* <MenuItems_FlatList /> */}
+//     //     {/* <MenuItems_SectionList /> */}
+//     //     {/* <FeedBackForm /> */}
+//     //     {/* <LoginScreen /> */}
+//     //     {/* <LittleLemonFooter /> */}
+//     //     {/* <Pressable_Menu /> */}
+//     //     {/* <ImageDemo /> */}
+//     //   </View>
+//     // </>
+//   );
+// }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#495E57" },
