@@ -16,6 +16,7 @@ import Welcome_useColorScheme from "./components/Welcome_useColorScheme";
 // imports required for Tab Navigation
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 const Tab = createBottomTabNavigator();
 //----------------------------------------------
 const Stack = createNativeStackNavigator();
@@ -33,34 +34,62 @@ function LogoTitle() {
     />
   );
 }
-// Demo of Tab Navigation
+
+//Demo of Drawer Navigation
+
+const Drawer = createDrawerNavigator();
+
 export default function App() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            if (route.name === "Welcome") {
-              iconName = focused
-                ? "ios-information-circle"
-                : "ios-information-circle-outline";
-            } else if (route.name === "Menu") {
-              iconName = "ios-list";
-            }
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: "tomato",
-          tabBarInactiveTintColor: "gray",
-        })}
-      >
-        <Tab.Screen name="Welcome" component={WelcomeScreen} />
-        <Tab.Screen name="Menu" component={MenuItems_SectionList} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        <View style={styles.container}>
+          <LittleLemonHeader />
+          <Drawer.Navigator
+            initialRouteName="Login"
+            // useLegacyImplementation ---remove this , since this is throwing an error
+            // screenOptions={{ drawerPosition: "right" }} this option is given if we want to implement the drawer from the right
+          >
+            <Drawer.Screen name="Welcome" component={WelcomeScreen} />
+            <Drawer.Screen name="Login" component={LoginScreen} />
+          </Drawer.Navigator>
+        </View>
+        <View style={styles.footerContainer}>
+          <LittleLemonFooter />
+        </View>
+      </NavigationContainer>
+    </>
   );
 }
+
+// Demo of Tab Navigation
+// export default function App() {
+//   return (
+//     <NavigationContainer>
+//       <Tab.Navigator
+//         screenOptions={({ route }) => ({
+//           tabBarIcon: ({ focused, color, size }) => {
+//             let iconName;
+
+//             if (route.name === "Welcome") {
+//               iconName = focused
+//                 ? "ios-information-circle"
+//                 : "ios-information-circle-outline";
+//             } else if (route.name === "Menu") {
+//               iconName = "ios-list";
+//             }
+//             return <Ionicons name={iconName} size={size} color={color} />;
+//           },
+//           tabBarActiveTintColor: "tomato",
+//           tabBarInactiveTintColor: "gray",
+//         })}
+//       >
+//         <Tab.Screen name="Welcome" component={WelcomeScreen} />
+//         <Tab.Screen name="Menu" component={MenuItems_SectionList} />
+//       </Tab.Navigator>
+//     </NavigationContainer>
+//   );
+// }
 
 // Demo of Stack Navigation
 // export default function App() {
@@ -110,4 +139,5 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#495E57" },
+  footerContainer: { backgroundColor: "#333333" },
 });
