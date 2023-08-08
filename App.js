@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -17,6 +18,7 @@ import Welcome_useColorScheme from "./components/Welcome_useColorScheme";
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+
 const Tab = createBottomTabNavigator();
 //----------------------------------------------
 const Stack = createNativeStackNavigator();
@@ -40,19 +42,43 @@ function LogoTitle() {
 const Drawer = createDrawerNavigator();
 
 export default function App() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const getMenu = async () => {
+    try {
+      const response = await fetch(
+        "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu-items-by-category.json"
+      );
+      if (!response.ok) {
+        throw new Error(`Fetch failed with status: ${response.status}`);
+      }
+      const json = await response.json();
+      setData(json.menu);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(!loading);
+    }
+  };
+
+  useEffect(() => {
+    getMenu();
+  }, []);
+
   return (
     <>
       <NavigationContainer>
         <View style={styles.container}>
           <LittleLemonHeader />
-          <Drawer.Navigator
+          <MenuItems_FlatList data={data} />
+          {/* <Drawer.Navigator
             initialRouteName="Login"
             // useLegacyImplementation ---remove this , since this is throwing an error
             // screenOptions={{ drawerPosition: "right" }} this option is given if we want to implement the drawer from the right
           >
             <Drawer.Screen name="Welcome" component={WelcomeScreen} />
             <Drawer.Screen name="Login" component={LoginScreen} />
-          </Drawer.Navigator>
+          </Drawer.Navigator> */}
         </View>
         <View style={styles.footerContainer}>
           <LittleLemonFooter />

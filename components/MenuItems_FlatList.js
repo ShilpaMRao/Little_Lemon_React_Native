@@ -26,19 +26,21 @@ const menuItemsToDisplay = [
 const Item = ({ name, price }) => (
   <View style={menuStyles.innerContainer}>
     <Text style={menuStyles.itemText}>{name}</Text>
-    <Text style={menuStyles.itemText}>{price}</Text>
+    <Text style={menuStyles.itemText}>${price}</Text>
   </View>
 );
 
 const Separator = () => <View style={menuStyles.separator} />;
-const MenuItems_FlatList = () => {
-  const renderItem = ({ item }) => <Item name={item.name} price={item.price} />;
+const MenuItems_FlatList = ({ data }) => {
+  const renderItem = ({ item }) => (
+    <Item name={item.title} price={item.price} />
+  );
 
   return (
     <View style={menuStyles.container}>
       <Text style={menuStyles.headerText}>View Menu</Text>
       <FlatList
-        data={menuItemsToDisplay}
+        data={data}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         ItemSeparatorComponent={Separator}
