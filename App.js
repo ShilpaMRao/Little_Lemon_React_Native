@@ -18,6 +18,9 @@ import Welcome_useColorScheme from "./components/Welcome_useColorScheme";
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import menuItems from "./menuItems.json";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { FlatList } from "react-native";
 
 const Tab = createBottomTabNavigator();
 //----------------------------------------------
@@ -36,57 +39,83 @@ function LogoTitle() {
     />
   );
 }
+// Demo of parsing a JSON file and rendering the items onto the screen.
+export default App = () => {
+  const { menu } = menuItems;
 
-//Demo of Drawer Navigation
+  const Item = ({ name, price }) => (
+    <View style={styles.innerContainer}>
+      <Text style={styles.menuText}>{name}</Text>
+      <Text style={styles.menuText}>{"$" + price}</Text>
+    </View>
+  );
 
-const Drawer = createDrawerNavigator();
-
-export default function App() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const getMenu = async () => {
-    try {
-      const response = await fetch(
-        "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu-items-by-category.json"
-      );
-      if (!response.ok) {
-        throw new Error(`Fetch failed with status: ${response.status}`);
-      }
-      const json = await response.json();
-      setData(json.menu);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(!loading);
-    }
-  };
-
-  useEffect(() => {
-    getMenu();
-  }, []);
+  const renderItem = ({ item }) => (
+    <Item name={item.title} price={item.price} />
+  );
 
   return (
-    <>
-      <NavigationContainer>
-        <View style={styles.container}>
-          <LittleLemonHeader />
-          <MenuItems_FlatList data={data} />
-          {/* <Drawer.Navigator
-            initialRouteName="Login"
-            // useLegacyImplementation ---remove this , since this is throwing an error
-            // screenOptions={{ drawerPosition: "right" }} this option is given if we want to implement the drawer from the right
-          >
-            <Drawer.Screen name="Welcome" component={WelcomeScreen} />
-            <Drawer.Screen name="Login" component={LoginScreen} />
-          </Drawer.Navigator> */}
-        </View>
-        <View style={styles.footerContainer}>
-          <LittleLemonFooter />
-        </View>
-      </NavigationContainer>
-    </>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.headerText}>Little Lemon Menu</Text>
+
+      <FlatList
+        data={menu}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+      />
+    </SafeAreaView>
   );
-}
+};
+//Demo of Drawer Navigation
+
+// const Drawer = createDrawerNavigator();
+
+// export default function App() {
+//   const [data, setData] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const getMenu = async () => {
+//     try {
+//       const response = await fetch(
+//         "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu-items-by-category.json"
+//       );
+//       if (!response.ok) {
+//         throw new Error(`Fetch failed with status: ${response.status}`);
+//       }
+//       const json = await response.json();
+//       setData(json.menu);
+//     } catch (error) {
+//       console.error(error);
+//     } finally {
+//       setLoading(!loading);
+//     }
+//   };
+
+//   useEffect(() => {
+//     getMenu();
+//   }, []);
+
+//   return (
+//     <>
+//       <NavigationContainer>
+//         <View style={styles.container}>
+//           <LittleLemonHeader />
+//           <MenuItems_FlatList data={data} />
+//           {/* <Drawer.Navigator
+//             initialRouteName="Login"
+//             // useLegacyImplementation ---remove this , since this is throwing an error
+//             // screenOptions={{ drawerPosition: "right" }} this option is given if we want to implement the drawer from the right
+//           >
+//             <Drawer.Screen name="Welcome" component={WelcomeScreen} />
+//             <Drawer.Screen name="Login" component={LoginScreen} />
+//           </Drawer.Navigator> */}
+//         </View>
+//         <View style={styles.footerContainer}>
+//           <LittleLemonFooter />
+//         </View>
+//       </NavigationContainer>
+//     </>
+//   );
+// }
 
 // Demo of Tab Navigation
 // export default function App() {
@@ -164,6 +193,25 @@ export default function App() {
 // }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#495E57" },
+  container: {
+    flex: 1,
+    backgroundColor: "#495E57",
+  },
+  innerContainer: {
+    paddingHorizontal: 40,
+    paddingVertical: 20,
+    backgroundColor: "#495E57",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  menuText: {
+    color: "#F4CE14",
+    fontSize: 22,
+  },
+  headerText: {
+    color: "#F4CE14",
+    fontSize: 30,
+    textAlign: "center",
+  },
   footerContainer: { backgroundColor: "#333333" },
 });
